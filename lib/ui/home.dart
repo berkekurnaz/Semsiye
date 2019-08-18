@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
       child: Text(
         "$txtCity",
         style: TextStyle(
-            fontFamily: "Comfortaa",
+            fontFamily: "Comfortaa",  
             fontSize: 35.0,
             fontWeight: FontWeight.bold),
       ),

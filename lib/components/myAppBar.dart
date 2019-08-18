@@ -67,7 +67,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => About()));
                 },
-                child: Text("About"),
+                child: Text("Hakkımızda"),
               )),
               PopupMenuItem(
                   child: FlatButton(
@@ -75,7 +75,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Settings()));
                 },
-                child: Text("Settings"),
+                child: Text("Ayarlar"),
               )),
             ];
           },
