@@ -7,7 +7,7 @@ class Comments {
       return "deneme";
     }
 
-    return "deneme";
+    return "test ediyorum.";
   }
 
 }

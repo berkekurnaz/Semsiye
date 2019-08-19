@@ -14,7 +14,9 @@ void main(){
     ),
     initialRoute: "/",
     routes: {
-      "/": (context) => Welcome()
+      "/": (context) => Welcome(),
+      "/home": (context) => Home(),
+      "/about": (context) => About()
     }
   ));
 }

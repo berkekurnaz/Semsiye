@@ -127,7 +127,7 @@ class _WelcomeState extends State<Welcome> {
               "day4icon": day4icon,
               "day5icon": day5icon,
             };
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => Home(
