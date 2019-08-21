@@ -66,21 +66,21 @@ class _HomeState extends State<Home> {
   }
 
   String _getWeatherComment(){
-    Comments comments = new Comments();
-    return comments.commentsForSunnyDay(10, 1000, 15);
+    Comments comments = new Comments(name: userName, surname: userSurname, city: userCity);
+    return comments.comment(10, widget.weatherCondition ,1000, 15);
   }
 
   @override
   void initState() {
     super.initState();
     _getUserData();
-    comment = _getWeatherComment();
     DateConvertToTurkish dateConvertToTurkish = new DateConvertToTurkish();
     otherDay1 = dateConvertToTurkish.day1;
     otherDay2 = dateConvertToTurkish.day2;
     otherDay3 = dateConvertToTurkish.day3;
     otherDay4 = dateConvertToTurkish.day4;
     otherDay5 = dateConvertToTurkish.day5;
+    comment = _getWeatherComment();
   }
 
   @override
