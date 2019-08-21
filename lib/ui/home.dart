@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
   String otherDay4;
   String otherDay5;
 
-  void _getUserData() async {
+  Future<String> _getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userName = prefs.getString("UserName");
@@ -73,14 +73,15 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _getUserData();
+    _getUserData().then((value){
+      comment = _getWeatherComment();
+    });
     DateConvertToTurkish dateConvertToTurkish = new DateConvertToTurkish();
     otherDay1 = dateConvertToTurkish.day1;
     otherDay2 = dateConvertToTurkish.day2;
     otherDay3 = dateConvertToTurkish.day3;
     otherDay4 = dateConvertToTurkish.day4;
     otherDay5 = dateConvertToTurkish.day5;
-    comment = _getWeatherComment();
   }
 
   @override
