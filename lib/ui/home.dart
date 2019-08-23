@@ -274,7 +274,7 @@ class _HomeState extends State<Home> {
 
   Widget _weatherOtherDays(String weather1, String weather2, String weather3, String weather4, String weather5, String icon1, String icon2, String icon3, String icon4, String icon5) {
     return Container(
-      margin: EdgeInsets.only(top: 20.0, bottom: 5.0),
+      margin: EdgeInsets.only(top: 20.0, bottom: 15.0),
       height: 80.0,
       child: Row(
         children: <Widget>[

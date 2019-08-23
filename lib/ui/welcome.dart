@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:dio/dio.dart';
 import 'package:semsiye_app_project/data/apiKey.dart';
 import 'package:semsiye_app_project/ui/buildSettings.dart';
 import 'package:semsiye_app_project/ui/home.dart';
+import 'package:semsiye_app_project/ui/internetControl.dart';
 import 'package:semsiye_app_project/utilities/dateConvertToString.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -43,7 +46,8 @@ class _WelcomeState extends State<Welcome> {
   String day5icon;
 
   Future<String> getData(String userCity) async {
-    Response response = await Dio().get("http://api.openweathermap.org/data/2.5/weather?q=${userCity},tr&APPID=${ApiKey.apiKey}&units=metric");
+    Response response = await Dio().get(
+        "http://api.openweathermap.org/data/2.5/weather?q=${userCity},tr&APPID=${ApiKey.apiKey}&units=metric");
     var weather = response.data;
     cityName = weather["name"].toString();
     weatherTemp = weather["main"]["temp"].toString();
@@ -52,8 +56,8 @@ class _WelcomeState extends State<Welcome> {
     windSpeed = weather["wind"]["speed"].toString();
     pressure = weather["main"]["pressure"].toString();
     humidity = weather["main"]["humidity"].toString();
-    var list =weather["weather"];
-    weatherCondition =list[0]["main"].toString();
+    var list = weather["weather"];
+    weatherCondition = list[0]["main"].toString();
     print(
         "$cityName de Hava Sıcaklığı: $weatherTemp Max : $weatherMax Min: $weatherMin $windSpeed $pressure $humidity");
   }
@@ -104,6 +108,19 @@ class _WelcomeState extends State<Welcome> {
     return "de";
   }
 
+  Future<String> _getInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
+    } on SocketException catch (_) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => InternetControl()));
+    }
+    return "Internet Connection Control";
+  }
+
   @override
   void initState() {
     super.initState();
@@ -113,35 +130,37 @@ class _WelcomeState extends State<Welcome> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => BuildSettings()));
       } else {
-        getData(userCity).then((value) {
-          _getOtherDays().then((value) {
-            var otherDays = {
-              "day1": day1,
-              "day2": day2,
-              "day3": day3,
-              "day4": day4,
-              "day5": day5,
-              "day1icon": day1icon,
-              "day2icon": day2icon,
-              "day3icon": day3icon,
-              "day4icon": day4icon,
-              "day5icon": day5icon,
-            };
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Home(
-                        cityName: cityName,
-                        weatherTemp: weatherTemp,
-                        weatherMax: weatherMax,
-                        weatherMin: weatherMin,
-                        windSpeed: windSpeed,
-                        pressure: pressure,
-                        humidity: humidity,
-                        weatherCondition: weatherCondition,
-                        otherDays: otherDays,
-                      )),
-            );
+        _getInternetConnection().then((value) {
+          getData(userCity).then((value) {
+            _getOtherDays().then((value) {
+              var otherDays = {
+                "day1": day1,
+                "day2": day2,
+                "day3": day3,
+                "day4": day4,
+                "day5": day5,
+                "day1icon": day1icon,
+                "day2icon": day2icon,
+                "day3icon": day3icon,
+                "day4icon": day4icon,
+                "day5icon": day5icon,
+              };
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Home(
+                          cityName: cityName,
+                          weatherTemp: weatherTemp,
+                          weatherMax: weatherMax,
+                          weatherMin: weatherMin,
+                          windSpeed: windSpeed,
+                          pressure: pressure,
+                          humidity: humidity,
+                          weatherCondition: weatherCondition,
+                          otherDays: otherDays,
+                        )),
+              );
+            });
           });
         });
       }
